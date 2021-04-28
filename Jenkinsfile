@@ -11,10 +11,11 @@ try {
 
   node(workerNodeId) {
     stage("Tag") {
-      sh "git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew"
-      sh "mkdir ~/.linuxbrew/bin"
-      sh "ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin"
-      sh "eval \$(~/.linuxbrew/bin/brew shellenv)"
+      // sh "git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew"
+      // sh "mkdir ~/.linuxbrew/bin"
+      // sh "ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin"
+      // sh "eval \$(~/.linuxbrew/bin/brew shellenv)"
+      sh "/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
       sh "brew install gitversion"
       sh "gitversion /output buildserver"
       sh "printenv"
