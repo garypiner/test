@@ -15,6 +15,7 @@ try {
       // sh "mkdir ~/.linuxbrew/bin"
       // sh "ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin"
       // sh "eval \$(~/.linuxbrew/bin/brew shellenv)"
+      sh "yum groupinstall \"Development Tools\" -y"
       sh "curl https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh --output install.sh"
       sh "sudo /bin/bash -c `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh`"
       // sh "chmod 755 install.sh"
