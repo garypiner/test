@@ -16,7 +16,7 @@ try {
       // sh "ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin"
       // sh "eval \$(~/.linuxbrew/bin/brew shellenv)"
       sh "curl https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh --output install.sh"
-      sh "./install.sh"
+      sh "sudo ./install.sh"
       rm "install.sh"
       sh "brew install gitversion"
       sh "gitversion /output buildserver"
