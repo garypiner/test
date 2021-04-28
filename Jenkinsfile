@@ -16,9 +16,10 @@ try {
       // sh "ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin"
       // sh "eval \$(~/.linuxbrew/bin/brew shellenv)"
       sh "curl https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh --output install.sh"
-      sh "chmod 755 install.sh"
-      sh "sudo install.sh"
-      sh "rm install.sh"
+      sh "sudo /bin/bash -c `curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh`"
+      // sh "chmod 755 install.sh"
+      // sh "sudo install.sh"
+      // sh "rm install.sh"
       sh "brew install gitversion"
       checkout scm
       sh "gitversion /output buildserver"
