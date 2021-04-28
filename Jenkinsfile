@@ -16,7 +16,7 @@ try {
       sh "printenv"
       echo gitversion
       withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]){    
-        sh("git tag -a ${gitversion} -m \'${message}\'")
+        sh("git tag -a ${gitversion} -m \'jenkins\'")
         sh("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/garypiner/${jenkinsLib.getBuildName()} --no-verify --tags")
       }
     }
