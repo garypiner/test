@@ -20,6 +20,7 @@ try {
       sh "sudo install.sh"
       sh "rm install.sh"
       sh "brew install gitversion"
+      checkout scm
       sh "gitversion /output buildserver"
       sh "printenv"
     }
