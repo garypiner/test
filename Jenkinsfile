@@ -15,7 +15,10 @@ try {
       gitversion = sh(script: "docker run --rm -v \"\$(pwd):/repo\" gittools/gitversion:5.6.6 /repo | jq .SemVer  | sed 's/\"//g'" , returnStdout: true).trim()
       sh "printenv"
       echo gitversion
-      gitLib.tag(gitversion)
+      withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]){    
+        sh("git tag -a ${tag} -m \'${message}\'")
+        sh("git push https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/garypiner/${jenkinsLib.getBuildName()} --no-verify --tags")
+      }
     }
   }
 }
