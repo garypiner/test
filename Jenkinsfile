@@ -16,7 +16,8 @@ try {
       sh "ln -s ../Homebrew/bin/brew ~/.linuxbrew/bin"
       sh "eval $(~/.linuxbrew/bin/brew shellenv)"
       sh "brew install gitversion"
-      sh "gitversion - /output buildserver"
+      sh "gitversion /output buildserver"
+      sh "printenv"
     }
   }
 }
