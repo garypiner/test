@@ -12,7 +12,7 @@ try {
   node(workerNodeId) {
     stage("Tag") {
       checkout scm
-      sh "docker run --rm -v \"\$(pwd):/repo\" gittools/gitversion:5.6.6 /repo"
+      gitversion = sh(script: "docker run --rm -v \"\$(pwd):/repo\" gittools/gitversion:5.6.6 /repo | jq .SemVer  | sed 's/\"//g'" , returnStdout: true).trim()
       sh "printenv"
     }
   }
