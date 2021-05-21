@@ -52,7 +52,8 @@ try {
     stage("release") {
       sh "zip -r test.zip test.py"
       sh "zip -r test2.zip test.py"
-      release(["test.zip","test2.zip"])
+      sh "mkdir test && mv test.zip test/ && mv test2.zip test/"
+      release("test/*.zip")
     }
   }
 }
