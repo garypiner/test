@@ -9,7 +9,8 @@ def release(files) {
     release_files = files
   } 
   else if (files.contains("*")) {
-    release_files = findFiles glob: files
+    found_files = findFiles glob: files
+    release_files = found_files.toString()
   } 
   else {
     release_files = files.split(",")
@@ -28,7 +29,7 @@ def release(files) {
 
     sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
     for (file in release_files) {
-      def split_file_name = file.toString().split('/').last()
+      def split_file_name = file.split('/').last()
       sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${split_file_name}\" --file ${file}"
     }
   }
@@ -54,7 +55,7 @@ try {
       sh "zip -r test.zip test.py"
       sh "zip -r test2.zip test.py"
       sh "mkdir test && mv test.zip test/ && mv test2.zip test/"
-      release(["test/test2.zip", "test/test2.zip"])
+      release(["test/test.zip", "test/test2.zip"])
     }
   }
 }
