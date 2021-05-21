@@ -4,6 +4,35 @@
 def workerNodeId = jenkinsLib.getBuildName() + '-' + jenkinsLib.getBuildNumber()
 def instance_type = "t3.large"
 
+def release(files) {
+  if (files instanceof List) {
+    release_files = files
+  } 
+  else if (files.contains("*")) {
+    release_files = findFiles glob: files
+  } 
+  else {
+    release_files = files.split(",")
+  }
+  
+  withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
+    env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
+    try {
+      go version
+
+    }
+    catch (e) {
+      sh "sudo yum install golang -y"
+    }
+    sh "go get github.com/github-release/github-release"
+
+    sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
+    for (file in release_files) {
+      sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${file}\" --file ${file}"
+    }
+  }
+}
+
 try {
   stage("worker") {
     workerLib.createEC2(workerNodeId, "awscentral", "prod", instance_type)
@@ -21,22 +50,8 @@ try {
       }
     }
     stage("release") {
-      withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
-        sh "zip -r artifacts.zip test.py"
-        env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
-        try {
-          go version
-
-        }
-        catch (e) {
-          sh "sudo yum install golang -y"
-        }
-        sh "go get github.com/github-release/github-release"
-
-        sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
-
-        sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${jenkinsLib.getBuildName()}-${gitversion}.zip\" --file artifacts.zip"
-      }
+      sh "zip -r test.zip test.py"
+      release(["test.zip"])
     }
   }
 }
