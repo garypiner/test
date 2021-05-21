@@ -28,10 +28,6 @@ def release(files) {
 
     sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
     for (file in release_files) {
-      println file
-      println file.getClass()
-      println file.toString().split('/')
-      println file.toString().split('/').last()
       def split_file_name = file.toString().split('/').last()
       sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${split_file_name}\" --file ${file}"
     }
@@ -59,7 +55,7 @@ try {
       sh "zip -r test2.zip test.py"
       sh "mkdir test && mv test.zip test/ && mv test2.zip test/"
 
-      release("test/*.zip")
+      release(["test/test2.zip", "test/test2.zip"])
     }
   }
 }
