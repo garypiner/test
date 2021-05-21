@@ -27,6 +27,7 @@ try {
           env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
           try {
             go version
+            
           }
           catch (e) {
             sh "sudo yum install golang -y"
