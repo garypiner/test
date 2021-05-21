@@ -52,7 +52,7 @@ try {
     stage("release") {
       sh "zip -r test.zip test.py"
       sh "zip -r test2.zip test.py"
-      release(["test.zip","test2.zip")
+      release(["test.zip","test2.zip"])
     }
   }
 }
