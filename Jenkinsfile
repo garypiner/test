@@ -23,21 +23,19 @@ try {
     stage("release") {
       withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
         sh "zip -r artifacts.zip test.py"
-        withEnv(['GITHUB_API=https://api.github.com/api/v3']) {
-          env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
-          try {
-            go version
+        env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
+        try {
+          go version
 
-          }
-          catch (e) {
-            sh "sudo yum install golang -y"
-          }
-          sh "go get github.com/github-release/github-release"
-
-          sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
-
-          sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${jenkinsLib.getBuildName()}-${gitversion}.zip\" --file artifacts.zip"
         }
+        catch (e) {
+          sh "sudo yum install golang -y"
+        }
+        sh "go get github.com/github-release/github-release"
+
+        sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
+
+        sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${jenkinsLib.getBuildName()}-${gitversion}.zip\" --file artifacts.zip"
       }
     }
   }
