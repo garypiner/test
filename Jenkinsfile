@@ -30,9 +30,9 @@ def release(files) {
     for (file in release_files) {
       println file
       println file.getClass()
-      println file.split('/+')
-      println file.split('/+').last()
-      def split_file_name = file.split('/+').last()
+      println file.toString().split('/')
+      println file.toString().split('/').last()
+      def split_file_name = file.toString().split('/').last()
       sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${split_file_name}\" --file ${file}"
     }
   }
