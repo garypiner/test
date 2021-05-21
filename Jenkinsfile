@@ -27,13 +27,12 @@ try {
           env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
           try {
             go version
-            
+
           }
           catch (e) {
             sh "sudo yum install golang -y"
           }
           sh "go get github.com/github-release/github-release"
-          sh "github-release delete --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion}"
 
           sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
 
