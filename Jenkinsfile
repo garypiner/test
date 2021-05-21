@@ -53,6 +53,7 @@ try {
       sh "zip -r test.zip test.py"
       sh "zip -r test2.zip test.py"
       sh "mkdir test && mv test.zip test/ && mv test2.zip test/"
+      
       release("test/*.zip")
     }
   }
