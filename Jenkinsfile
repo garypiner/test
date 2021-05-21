@@ -24,7 +24,13 @@ try {
       withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
         sh "zip -r artifacts.zip test.py"
         withEnv(['GITHUB_API=https://api.github.com/api/v3']) {
-          sh "sudo yum install golang -y"
+          env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
+          try {
+            go version
+          }
+          catch (e) {
+            sh "sudo yum install golang -y"
+          }
           sh "go get github.com/github-release/github-release"
           sh "github-release delete --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion}"
 
