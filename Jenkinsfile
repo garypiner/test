@@ -26,8 +26,8 @@ def release(files) {
       sh "sudo yum install golang -y"
     }
     sh "go get github.com/github-release/github-release"
-
-    sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\""
+    def GIT_COMMIT_MESSAGE = sh(returnStdout: true, script: "git log -1 --pretty=%B").trim()
+    sh "github-release release --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${gitversion}\" --description ${GIT_COMMIT_MESSAGE}"
     for (file in release_files) {
       def split_file_name = file.split('/').last()
       sh "github-release upload --user garypiner --repo ${jenkinsLib.getBuildName()} --tag ${gitversion} --name \"${split_file_name}\" --file ${file}"
