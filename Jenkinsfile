@@ -15,7 +15,6 @@ def release(files) {
   else {
     release_files = files.split(",")
   }
-
   withCredentials([string(credentialsId: 'github-access-token', variable: 'GITHUB_TOKEN')]) {
     env.PATH="$PATH:/usr/bin:/usr/local/bin:/usr/local/go/bin:~/go/bin"
     try {
