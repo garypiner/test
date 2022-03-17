@@ -1,0 +1,7 @@
+mode: ContinuousDelivery
+branches: {}
+ignore:
+  sha: []
+merge-message-formats: {}
+major-version-bump-message: 'CL0UD-[0-9]+(\ |-)(Major|major).*'
+minor-version-bump-message: 'CL0UD-[0-9]+(\ |-)(Minor|minor).*'
