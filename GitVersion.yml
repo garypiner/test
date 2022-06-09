@@ -3,5 +3,6 @@ branches: {}
 ignore:
   sha: []
 merge-message-formats: {}
-major-version-bump-message: 'CL0UD-[0-9]+(\ |-)(Major|major).*'
-minor-version-bump-message: 'CL0UD-[0-9]+(\ |-)(Minor|minor).*'
+major-version-bump-message: '(Bump major|bump major).*'
+minor-version-bump-message: '(Bump minor|bump minor).*'
+patch-version-bump-message: '(Bump patch|bump patch).*'
